@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore AI Tools - AI Search Bot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: #2563eb;
+            font-weight: 600;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            color: #64748b;
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+            /* Remove duplicate styles and keep only one version of each */
+            .category-section {
+                background: white;
+                border-radius: 16px;
+                padding: 2rem;
+                margin-bottom: 2rem;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+                display: flex;
+                flex-direction: column;
+                min-height: 400px; /* Set minimum height */
+            }
+
+            .tools-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 1.5rem;
+                flex-grow: 1;
+            }
+
+            .tool-card {
+                background: #f8fafc;
+                border-radius: 12px;
+                padding: 1.5rem;
+                height: 200px; /* Fixed height for cards */
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+
+            .tool-card h3 {
+                font-size: 1.2rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .tool-card p {
+                flex-grow: 1;
+                overflow-y: auto;
+                margin-bottom: 1rem;
+            }
+
+            #categories-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+                gap: 2rem;
+                align-items: start;
+            }
+            .category-header {
+                color: #2563eb;
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+                padding-bottom: 0.5rem;
+                border-bottom: 2px solid #e2e8f0;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                font-weight: 600;
+            }
+
+            .tool-card a {
+                display: inline-block;
+                padding: 0.75rem 1.5rem;
+                background: #2563eb;
+                color: white;
+                text-decoration: none;
+                border-radius: 8px;
+                transition: all 0.3s ease;
+                text-align: center;
+                font-weight: 500;
+                width: 100%;
+                box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+            }
+
+            .tool-card a:hover {
+                background: #1d4ed8;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
+            }
+            .tools-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            @media (max-width: 768px) {
+                #categories-container {
+                    grid-template-columns: 1fr;
+                }
+
+                .page-header h1 {
+                    font-size: 2rem;
+                }
+            }
+        </style>
+
+        <!-- Add this section right after the mobile-menu div -->
+        
+        <style>
+            .page-header {
+                background: white;
+                padding: 2rem;
+                text-align: center;
+                margin-bottom: 2rem;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+
+            .page-header h1 {
+                color: #2563eb;
+                font-size: 2.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .page-header p {
+                color: #64748b;
+                font-size: 1.1rem;
+            }
+
+            .container {
+                max-width: 1400px;
+                margin: 2rem auto;
+                padding: 0 2rem;
+            }
+
+            #categories-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+                gap: 2rem;
+            }
+
+            .category-section {
+                background: white;
+                border-radius: 16px;
+                padding: 2rem;
+                height: fit-content;
+            }
+
+            .tools-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            @media (max-width: 768px) {
+                #categories-container {
+                    grid-template-columns: 1fr;
+                }
+
+                .page-header h1 {
+                    font-size: 2rem;
+                }
+            }
+        </style>
+
+        <!-- Replace all script sections with this single, corrected version -->
+        <script>
+            function toggleMenu() {
+                const mobileMenu = document.querySelector('.mobile-menu');
+                mobileMenu.classList.toggle('active');
+            }
+
+            document.addEventListener('click', (e) => {
+                const mobileMenu = document.querySelector('.mobile-menu');
+                const hamburger = document.querySelector('.hamburger');
+                
+                if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        </script>
+
+        <script type="module">
+            try {
+                const response = await fetch('./dashboard.js');
+                const text = await response.text();
+                const botsMatch = text.match(/const bots = ({[\s\S]*?});/);
+                
+                if (botsMatch) {
+                    const botsObject = eval('(' + botsMatch[1] + ')');
+                    const categoriesContainer = document.getElementById('categories-container');
+
+                    Object.entries(botsObject).forEach(([category, tools]) => {
+                        const categoryName = category.split(',')[0].trim();
+                        
+                        const section = document.createElement('div');
+                        section.className = 'category-section';
+                        
+                        section.innerHTML = `
+                            <h2 class="category-header">${categoryName}</h2>
+                            <div class="tools-grid">
+                                ${tools.map(tool => `
+                                    <div class="tool-card">
+                                        <h3>${tool.name}</h3>
+                                        <p>${tool.desc}</p>
+                                        <a href="${tool.link}" target="_blank">Visit Tool</a>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `;
+                        
+                        categoriesContainer.appendChild(section);
+                    });
+                } else {
+                    console.error('Could not find bots data in dashboard.js');
+                }
+            } catch (error) {
+                console.error('Error loading bots:', error);
+            }
+        </script>
+    </style>
+</head>
+<body>
+    <!-- Update the navbar section -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html" class="logo">AI Search Bot</a>
+        </div>
+        <button class="hamburger" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="nav-links">
+            <a href="dashboard.html"><i class="fas fa-chart-bar"></i> Dashboard</a>
+            <a href="search.html" class="active"><i class="fas fa-search"></i> Explore</a>
+            <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+        </div>
+    </nav>
+    
+    <div class="mobile-menu">
+        <a href="dashboard.html"><i class="fas fa-chart-bar"></i> Dashboard</a>
+        <a href="search.html" class="active"><i class="fas fa-search"></i> Explore</a>
+        <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+        <a href="login.html" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+    
+<br>
+    <div class="page-header">
+        <h1>AI Tools Explorer</h1>
+        <p>Discover AI tools categorized by their domains</p>
+    </div>
+
+    <div class="container">
+        <div id="categories-container"></div>
+    </div>
+
+    
+    <style>
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #2563eb;
+        }
+    
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background: white;
+            padding: 5rem 2rem 2rem;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            z-index: 99;
+        }
+    
+        .mobile-menu.active {
+            right: 0;
+        }
+    
+        .mobile-menu a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            color: #1e293b;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+    
+        .mobile-menu a:hover {
+            background: #f1f5f9;
+            color: #2563eb;
+        }
+    
+        .mobile-menu a.logout-link {
+            color: #ef4444;
+        }
+    
+        .mobile-menu a.active {
+            color: #2563eb;
+            background: #f1f5f9;
+        }
+    
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+                z-index: 100;
+            }
+    
+            .nav-links {
+                display: none;
+            }
+    
+            .mobile-menu {
+                display: block;
+            }
+        }
+    </style>
+    
+    <!-- Add this script before the closing body tag -->
+    <script>
+        function toggleMenu() {
+            const mobileMenu = document.querySelector('.mobile-menu');
+            mobileMenu.classList.toggle('active');
+        }
+    
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const hamburger = document.querySelector('.hamburger');
+            
+            if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+    </script>
+    
+    <!-- Update the script type="module" section -->
+    <script type="module">
+        try {
+            const response = await fetch('./dashboard.js');
+            const text = await response.text();
+            const botsMatch = text.match(/const bots = ({[\s\S]*?});/);
+            
+            if (botsMatch) {
+                const botsObject = eval('(' + botsMatch[1] + ')');
+                const categoriesContainer = document.getElementById('categories-container');
+
+                Object.entries(botsObject).forEach(([category, tools]) => {
+                    const categoryName = category.split(',')[0].trim();
+                    
+                    const section = document.createElement('div');
+                    section.className = 'category-section';
+                    
+                    section.innerHTML = `
+                        <h2 class="category-header">${categoryName}</h2>
+                        <div class="tools-grid">
+                            ${tools.map(tool => `
+                                <div class="tool-card">
+                                    <h3>${tool.name}</h3>
+                                    <p>${tool.desc}</p>
+                                    <a href="${tool.link}" target="_blank">Visit Tool</a>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    
+                    categoriesContainer.appendChild(section);
+                });
+            } else {
+                console.error('Could not find bots data in dashboard.js');
+            }
+        } catch (error) {
+            console.error('Error loading bots:', error);
+        }
+    </script>
+</body>
+</html>
